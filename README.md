@@ -148,17 +148,19 @@ Open the product form for the "Dell Latitude Laptop". In the **General Informati
 
 ### Optional: Bulk Import Configuration
 
-For initial setup, you can import all your mappings in bulk using CSV files instead of creating them one by one. Sample files are provided in the `data/` directory of this module.
+For initial setup, you can import all your mappings in bulk using CSV files instead of creating them one by one. Example files are provided in the `data/` directory of this module to serve as templates.
 
-1.  **Prepare Your CSV:**
-    - Open the sample file (e.g., `data/barcode_category_mapping.csv`).
+1.  **Prepare Your CSV Files:**
+    - In the `data/` directory, you will find files ending in `.example.csv` (e.g., `category.mappings.example.csv`).
+    - **Copy these files** and rename them without the `.example` extension (e.g., `category.mappings.csv`). These new files are ignored by git, so your private data will not be tracked.
+    - Open your new CSV file (e.g., `category.mappings.csv`).
     - The file has two columns: `name` (the keyword from the Internal Reference) and `code` (the corresponding code for the barcode).
     - Add all of your mappings to this file.
 
 2.  **Import into Odoo:**
     - In Odoo, navigate to the mapping screen you want to import (e.g., **Inventory -> Configuration -> Barcode -> Category Mappings**).
     - Click the **Import Records** button (cloud icon) in the top-left.
-    - Click the **Upload File** button and select your prepared CSV file.
+    - Click the **Upload File** button and select your prepared CSV file (e.g., `category.mappings.csv`).
     - Odoo will automatically map the columns from your file (`name`, `code`) to the correct fields.
     - Click the **Test** button to ensure your data is valid.
     - If the test is successful, click the **Import** button to complete the process.

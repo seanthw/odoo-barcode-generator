@@ -1,0 +1,2 @@
+# Ignore the actual data files, but keep the example templates.
+data/*.mappings.csv

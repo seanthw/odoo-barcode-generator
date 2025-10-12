@@ -14,9 +14,6 @@
         'data/barcode_sequence.xml',
         'views/products_views.xml',
         'views/barcode_mapping_views.xml',
-        'data/barcode.category.mapping.csv',
-        'data/barcode.brand.mapping.csv',
-        'data/barcode.product.mapping.csv',
     ],
 
 'installable': True,
