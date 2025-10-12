@@ -9,6 +9,7 @@ This Odoo module automatically generates a unique, structured barcode for produc
 - **Robust Sequencing:** Uses Odoo's native `ir.sequence` to ensure unique, conflict-free barcode generation, even in a multi-user environment.
 - **Bulk Actions:** Provides server actions to generate or clear barcodes for multiple products at once from the product list view.
 - **Structured & Readable Code:** The logic is refactored into small, maintainable methods, making it easy to understand and extend.
+- **Full Product Variant Support:** Automatically generates a unique barcode for each individual product variant based on its specific attributes.
 
 ## How It Works
 
@@ -21,12 +22,45 @@ The barcode is generated from four components:
 
 **Note on Matching:** The module splits the Internal Reference by the hyphen (`-`) character and looks for an exact match between your defined keywords and the parts of the reference. For example, the reference `LT-DELL-LAT-02` is split into `['LT', 'DELL', 'LAT', '02']`, allowing the module to find the keywords `LT`, `DELL`, and `LAT`.
 
-### Example:
+### Product Variant Support
 
-- **Internal Reference:** `LT-DELL-LAT`
-- **Prefix:** `70` (LT) + `2` (DELL) + `002` (LAT) = `702002`
-- **Sequence:** `00001`
-- **Final Barcode:** `70200200001`
+
+
+This module correctly handles products with variants (e.g., different sizes or colors). It generates a unique barcode for **each specific variant**.
+
+
+
+The system works by creating a temporary, unique internal reference for each variant before generating the barcode prefix. This is done by combining the main product's Internal Reference with the variant's specific attribute values.
+
+
+
+**Example:**
+
+-   **Product Template:**
+
+    -   Internal Reference: `LT-DELL-LAT`
+
+-   **Variant 1:**
+
+    -   Attributes: `16GB`, `512GB`
+
+    -   Temporary Reference for barcode generation: `LT-DELL-LAT-16GB-512GB`
+
+    -   Resulting Barcode: `70200200001`
+
+-   **Variant 2:**
+
+    -   Attributes: `32GB`, `1TB`
+
+    -   Temporary Reference for barcode generation: `LT-DELL-LAT-32GB-1TB`
+
+    -   Resulting Barcode: `70200200002`
+
+
+
+This ensures that every unique item in your inventory has its own distinct barcode, which is essential for accurate stock management.
+
+
 
 ## Installation
 
