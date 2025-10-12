@@ -7,7 +7,7 @@
     This module adds a button to product forms and lists to generate barcodes
     based on a structured formula that uses product category, brand, and internal references.
 """,
-'author': 'Your Name',
+'author': 'Sean Thawe',
 'depends': ['product', 'stock'],
     'data': [
         'security/ir.model.access.csv',
