@@ -28,9 +28,33 @@ The barcode is generated from four components:
 
 ## Installation
 
-1.  Copy this module folder into your Odoo `addons` directory.
-2.  Restart the Odoo server.
-3.  Go to **Apps**, search for "Barcode Generator", and click **Install**.
+Follow the instructions for your specific Odoo setup.
+
+### For Docker (Recommended)
+
+1.  **Copy Module:** Place the `odoo-barcode-generator` folder into the Odoo addons directory that is mounted into your container (e.g., `test-addons`).
+2.  **Restart Container:** Restart the Odoo container to ensure the new module is detected and file permissions are correctly set.
+    ```bash
+    docker compose restart <your_odoo_service_name>
+    ```
+3.  **Activate Developer Mode:** Log into your Odoo database, go to `Settings`, and click `Activate the developer mode`.
+4.  **Update Apps List:** Go to the `Apps` menu. In the top menu, click `Update Apps List` and confirm the update in the dialog box.
+5.  **Install:** Search for `Product Barcode Generator` (you may need to remove the default `Apps` filter in the search bar) and click `Install`.
+
+### For Traditional Setups
+
+1.  **Copy Module:** Place the `odoo-barcode-generator` folder into your Odoo's primary `addons` directory.
+2.  **Set Permissions:** Ensure the module's files are owned by the user that runs the Odoo service.
+    ```bash
+    sudo chown -R odoo:odoo /path/to/odoo/addons/odoo-barcode-generator
+    ```
+3.  **Restart Server:** Restart the Odoo service.
+    ```bash
+    sudo systemctl restart odoo
+    ```
+4.  **Activate Developer Mode:** Log into your Odoo database, go to `Settings`, and click `Activate the developer mode`.
+5.  **Update Apps List:** Go to the `Apps` menu. In the top menu, click `Update Apps List` and confirm the update in the dialog box.
+6.  **Install:** Search for `Product Barcode Generator` (you may need to remove the default `Apps` filter in the search bar) and click `Install`.
 
 ## Configuration
 
