@@ -42,6 +42,17 @@ class ProductTemplate(models.Model):
             'tag': 'reload',
         }
         
+    def write(self, vals):
+        # First, perform the standard write operation
+        res = super(ProductTemplate, self).write(vals)
+        # After the write, check if new variants were created that need barcodes
+        for template in self:
+            # Find variants of this template that don't have a barcode yet
+            variants_to_process = template.product_variant_ids.filtered(lambda v: not v.barcode)
+            if variants_to_process:
+                variants_to_process.generate_barcode()
+        return res
+        
     @api.model_create_multi
     def create(self, vals_list):
         """
