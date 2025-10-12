@@ -19,6 +19,8 @@ The barcode is generated from four components:
 3.  **Product Code:** A 3-digit code for the product line (e.g., "002" for Latitude).
 4.  **Unique Sequence:** A 5-digit sequential number to ensure the barcode is unique.
 
+**Note on Matching:** The module splits the Internal Reference by the hyphen (`-`) character and looks for an exact match between your defined keywords and the parts of the reference. For example, the reference `LT-DELL-LAT-02` is split into `['LT', 'DELL', 'LAT', '02']`, allowing the module to find the keywords `LT`, `DELL`, and `LAT`.
+
 ### Example:
 
 - **Internal Reference:** `LT-DELL-LAT`
