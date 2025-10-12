@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add action to generate all barcodes for variants -->
+    <record id="action_generate_all_barcodes_variants" model="ir.actions.server">
+        <field name="name">Generate Barcodes</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.generate_barcode()</field>
+    </record>
+    
+    <!-- Add action to force generate all barcodes for variants -->
+    <record id="action_force_generate_all_barcodes_variants" model="ir.actions.server">
+        <field name="name">Force Generate Barcodes</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.generate_barcode(force=True)</field>
+    </record>
+</odoo>

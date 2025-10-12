@@ -3,18 +3,35 @@ from odoo import models, fields, api
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    def _get_code_from_mapping(self, internal_ref, model_name, default_code):
-        ref_parts = internal_ref.split('-')
-        mappings = self.env[model_name].search([])
-        for mapping in mappings:
-            if mapping.name in ref_parts:
-                return mapping.code
+    def _get_code_from_mapping(self, model_name, default_code, record):
+        # Prioritize variant's internal reference
+        if record.default_code:
+            ref_parts = record.default_code.split('-')
+            mappings = self.env[model_name].search([])
+            for mapping in mappings:
+                if mapping.name in ref_parts:
+                    return mapping.code
+
+        # Then, check variant's attributes
+        for attribute_value in record.product_template_attribute_value_ids:
+            mappings = self.env[model_name].search([('name', '=', attribute_value.name)])
+            if mappings:
+                return mappings[0].code
+
+        # Fallback to template's internal reference
+        if record.product_tmpl_id.default_code:
+            ref_parts = record.product_tmpl_id.default_code.split('-')
+            mappings = self.env[model_name].search([])
+            for mapping in mappings:
+                if mapping.name in ref_parts:
+                    return mapping.code
+        
         return default_code
 
-    def _get_barcode_prefix(self, internal_ref):
-        category_code = self._get_code_from_mapping(internal_ref, 'barcode.category.mapping', "00")
-        brand_code = self._get_code_from_mapping(internal_ref, 'barcode.brand.mapping', "0")
-        product_code = self._get_code_from_mapping(internal_ref, 'barcode.product.mapping', "000")
+    def _get_barcode_prefix(self, record):
+        category_code = self._get_code_from_mapping('barcode.category.mapping', "00", record)
+        brand_code = self._get_code_from_mapping('barcode.brand.mapping', "0", record)
+        product_code = self._get_code_from_mapping('barcode.product.mapping', "000", record)
         return category_code + brand_code + product_code
 
     def _get_next_barcode_sequence(self):
@@ -38,11 +55,10 @@ class ProductProduct(models.Model):
 
     def generate_barcode(self, force=False):
         for record in self:
-            if (not record.barcode or force) and record.product_tmpl_id.default_code:
-                template_ref = record.product_tmpl_id.default_code
+            if (not record.barcode or force) and (record.default_code or record.product_tmpl_id.default_code):
                 
-                # Prefix is determined ONLY by the template's internal reference.
-                prefix = self._get_barcode_prefix(template_ref)
+                # Prefix is determined by the variant's attributes or the template's internal reference.
+                prefix = self._get_barcode_prefix(record)
                 sequence = self._get_next_barcode_sequence()
                 
                 if not sequence:

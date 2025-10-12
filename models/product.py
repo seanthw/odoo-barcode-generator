@@ -15,11 +15,12 @@ class ProductTemplate(models.Model):
         or doing both in the same transaction.
         """
         res = super(ProductTemplate, self).write(vals)
-        for template in self:
-            if template.default_code:
-                variants_to_process = template.product_variant_ids.filtered(lambda v: not v.barcode)
-                if variants_to_process:
-                    variants_to_process.generate_barcode()
+        if 'default_code' in vals:
+            for template in self:
+                if template.default_code:
+                    variants_to_process = template.product_variant_ids.filtered(lambda v: not v.barcode)
+                    if variants_to_process:
+                        variants_to_process.generate_barcode()
         return res
 
     @api.model_create_multi
@@ -36,19 +37,19 @@ class ProductTemplate(models.Model):
 
     def generate_all_barcodes(self, force=False):
         """Server action to generate barcodes for all variants of selected products."""
-        domain = [('default_code', '!=', False)]
+        domain = [('product_tmpl_id.default_code', '!=', False)]
         if not force:
-            domain.append(('product_variant_ids.barcode', '=', False))
+            domain.append(('barcode', '=', False))
         
-        products = self.search(domain)
-        if products:
-            products.generate_barcode(force=force)
+        variants = self.env['product.product'].search(domain)
+        if variants:
+            variants.generate_barcode(force=force)
         
         return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     def clear_all_barcodes(self):
         """Server action to clear barcodes for all variants of selected products."""
-        variants_to_clear = self.search([('default_code', '!=', False)]).product_variant_ids
+        variants_to_clear = self.env['product.product'].search([('barcode', '!=', False)])
         variants_to_clear.write({'barcode': False})
         
         return {'type': 'ir.actions.client', 'tag': 'reload'}

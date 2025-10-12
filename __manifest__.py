@@ -14,6 +14,7 @@
         'data/barcode_sequence.xml',
         'views/products_views.xml',
         'views/barcode_mapping_views.xml',
+        'views/product_variant_views.xml',
     ],
 
 'installable': True,
