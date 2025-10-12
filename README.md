@@ -58,6 +58,18 @@ Follow the instructions for your specific Odoo setup.
 5.  **Update Apps List:** Go to the `Apps` menu. In the top menu, click `Update Apps List` and confirm the update in the dialog box.
 6.  **Install:** Search for `Product Barcode Generator` (you may need to remove the default `Apps` filter in the search bar) and click `Install`.
 
+## Upgrading the Module
+
+When you update the module's source code (e.g., by pulling changes from git), you need to apply those changes to your Odoo database.
+
+1.  **Update Files & Restart:** First, replace the files in your `addons` directory with the new version, then restart your Odoo container or server using the same method you did for installation.
+2.  **Upgrade in Odoo:**
+    - Go to the **Apps** menu.
+    - Find the "Product Barcode Generator" module.
+    - Click the module's menu (three dots) and select **Upgrade**.
+
+This will apply any changes to the database, views, and data files.
+
 ## Getting Started: A Step-by-Step Guide
 
 The entire system is based on matching keywords in a product's **Internal Reference** to codes that you define.
