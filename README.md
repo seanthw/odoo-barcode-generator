@@ -112,7 +112,7 @@ You can now generate barcodes automatically or manually.
 
 The module will automatically run, find your mappings, and generate the barcode.
 
-#### Method 2: Manual Generation (for existing products)
+#### Method 2: Manual & Bulk Actions (for existing products)
 
 If you have products that already exist, you can generate barcodes in bulk.
 
@@ -131,3 +131,24 @@ Open the product form for the "Dell Latitude Laptop". In the **General Informati
 
 -   `702002` is the prefix we configured (`70` + `2` + `002`).
 -   `00001` is the unique 5-digit sequence number. The next product you create will get `00002`, and so on.
+
+---
+
+### Optional: Bulk Import Configuration
+
+For initial setup, you can import all your mappings in bulk using CSV files instead of creating them one by one. Sample files are provided in the `data/` directory of this module.
+
+1.  **Prepare Your CSV:**
+    - Open the sample file (e.g., `data/barcode_category_mapping.csv`).
+    - The file has two columns: `name` (the keyword from the Internal Reference) and `code` (the corresponding code for the barcode).
+    - Add all of your mappings to this file.
+
+2.  **Import into Odoo:**
+    - In Odoo, navigate to the mapping screen you want to import (e.g., **Inventory -> Configuration -> Barcode -> Category Mappings**).
+    - Click the **Import Records** button (cloud icon) in the top-left.
+    - Click the **Upload File** button and select your prepared CSV file.
+    - Odoo will automatically map the columns from your file (`name`, `code`) to the correct fields.
+    - Click the **Test** button to ensure your data is valid.
+    - If the test is successful, click the **Import** button to complete the process.
+
+Repeat this process for the Brand and Product mappings.
