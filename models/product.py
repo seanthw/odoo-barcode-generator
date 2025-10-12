@@ -43,21 +43,25 @@ class ProductTemplate(models.Model):
         }
         
     def write(self, vals):
-        # Before the write, find the set of existing variant IDs
-        variants_before_write = self.mapped('product_variant_ids')
-        
-        # Perform the standard write operation, which creates the new variants
+        # For each template being written to, store the set of its current variant IDs.
+        # This is done before the write operation creates the new variants.
+        variants_before_write = {template.id: set(template.product_variant_ids.ids) for template in self}
+
+        # Perform the standard write operation. This is where Odoo creates the new variants.
         res = super(ProductTemplate, self).write(vals)
 
-        # After the write, get the new set of all variants
-        variants_after_write = self.mapped('product_variant_ids')
-        
-        # The difference between the two sets are the newly created variants
-        new_variants = variants_after_write - variants_before_write
-        
-        # If new variants were created, generate barcodes for them
-        if new_variants:
-            new_variants.generate_barcode()
+        # After the write, check each template for newly created variants.
+        for template in self:
+            variants_after_write = set(template.product_variant_ids.ids)
+            variants_before = variants_before_write.get(template.id, set())
+            
+            # The difference between the two sets gives us the exact IDs of the new variants.
+            new_variant_ids = list(variants_after_write - variants_before)
+
+            if new_variant_ids:
+                # Get the actual records for the new variants and generate barcodes for them.
+                new_variants = self.env['product.product'].browse(new_variant_ids)
+                new_variants.generate_barcode()
             
         return res
         
