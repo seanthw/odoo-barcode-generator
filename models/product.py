@@ -96,9 +96,12 @@ class ProductTemplate(models.Model):
             'tag': 'reload',
         }
         
-    @api.model
-    def create(self, vals):
-        res = super(ProductTemplate, self).create(vals)
-        if not res.barcode and res.default_code:
-            res.generate_barcode()
-        return res
+    @api.model_create_multi
+    def create(self, vals_list):
+        # First, create the product(s) using the original method
+        records = super(ProductTemplate, self).create(vals_list)
+        # Now, iterate through the newly created records to generate barcodes
+        for record in records:
+            if not record.barcode and record.default_code:
+                record.generate_barcode()
+        return records
