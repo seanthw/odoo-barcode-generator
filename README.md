@@ -152,3 +152,38 @@ For initial setup, you can import all your mappings in bulk using CSV files inst
     - If the test is successful, click the **Import** button to complete the process.
 
 Repeat this process for the Brand and Product mappings.
+
+---
+
+## Advanced Usage
+
+### Mapping Code Requirements
+
+To ensure barcodes are generated correctly, the codes you define in the mappings must follow these character length rules:
+
+-   **Category Code:** Must be exactly **2** characters (e.g., "70", "AB").
+-   **Brand Code:** Must be exactly **1** character (e.g., "2", "D").
+-   **Product Code:** Must be exactly **3** characters (e.g., "002", "LAT").
+
+The system will use the default codes ("00", "0", "000") if a mapping is not found, but adhering to these lengths for your custom codes is essential for a consistent barcode structure.
+
+### How to Bulk Update Internal References
+
+If you have many existing products that need their Internal Reference updated to match your new mapping keywords, the most efficient way is to use Odoo's import/export feature.
+
+1.  **Navigate to Products:** Go to the **Products** list view.
+2.  **Export Required Fields:**
+    - Select the products you want to update.
+    - Click the **Action** (gear icon) menu and choose **Export**.
+    - In the export dialog, add two fields to the export list: `Name` and `Internal Reference`.
+    - Click **Export**.
+3.  **Update the File:**
+    - Open the downloaded spreadsheet file.
+    - Fill in or correct the `Internal Reference` for each product according to your new naming convention (e.g., `LT-DELL-LAT-01`).
+    - Save the file.
+4.  **Import the Changes:**
+    - Go back to the **Products** list view.
+    - Click the **Import Records** (cloud icon) button.
+    - Upload your updated spreadsheet file.
+    - Odoo will automatically match the columns. Click **Test** to verify.
+    - If the test is successful, click **Import** to update all your products at once.
