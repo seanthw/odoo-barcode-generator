@@ -4,9 +4,12 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     def _get_code_from_mapping(self, internal_ref, model_name, default_code):
+        # Split the internal reference into parts to allow for more precise matching
+        ref_parts = internal_ref.split('-')
         mappings = self.env[model_name].search([])
         for mapping in mappings:
-            if mapping.name in internal_ref:
+            # Check if a keyword is one of the parts of the internal reference
+            if mapping.name in ref_parts:
                 return mapping.code
         return default_code
 
