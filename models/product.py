@@ -43,14 +43,22 @@ class ProductTemplate(models.Model):
         }
         
     def write(self, vals):
-        # First, perform the standard write operation
+        # Before the write, find the set of existing variant IDs
+        variants_before_write = self.mapped('product_variant_ids')
+        
+        # Perform the standard write operation, which creates the new variants
         res = super(ProductTemplate, self).write(vals)
-        # After the write, check if new variants were created that need barcodes
-        for template in self:
-            # Find variants of this template that don't have a barcode yet
-            variants_to_process = template.product_variant_ids.filtered(lambda v: not v.barcode)
-            if variants_to_process:
-                variants_to_process.generate_barcode()
+
+        # After the write, get the new set of all variants
+        variants_after_write = self.mapped('product_variant_ids')
+        
+        # The difference between the two sets are the newly created variants
+        new_variants = variants_after_write - variants_before_write
+        
+        # If new variants were created, generate barcodes for them
+        if new_variants:
+            new_variants.generate_barcode()
+            
         return res
         
     @api.model_create_multi
