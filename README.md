@@ -5,11 +5,11 @@ This Odoo module automatically generates a unique, structured barcode for produc
 ## Key Features
 
 - **Automated Barcode Creation:** Automatically generates barcodes when a product is created, saving time and reducing manual errors.
+- **Flexible, Variant-First Logic:** Prioritizes a variant's own internal reference or attributes for barcode generation, falling back to the main product template's reference.
 - **Configurable Mappings:** Barcode generation rules (for category, brand, and product) are fully configurable through the Odoo UI. No code changes are needed to add new product types or brands.
 - **Robust Sequencing:** Uses Odoo's native `ir.sequence` to ensure unique, conflict-free barcode generation, even in a multi-user environment.
-- **Bulk Actions:** Provides server actions to generate or clear barcodes for multiple products at once from the product list view.
-- **Structured & Readable Code:** The logic is refactored into small, maintainable methods, making it easy to understand and extend.
-- **Full Product Variant Support:** Automatically generates a unique barcode for each individual product variant based on its specific attributes.
+- **Bulk Actions:** Provides server actions to generate or clear barcodes for multiple products or variants at once from their respective list views.
+- **Full Product Variant Support:** Automatically generates a unique barcode for each individual product variant.
 
 ## How It Works
 
@@ -24,43 +24,27 @@ The barcode is generated from four components:
 
 ### Product Variant Support
 
+This module correctly handles products with variants (e.g., different sizes or colors) and generates a unique barcode for **each specific variant**.
 
+The system uses a flexible, hierarchical logic to find the keywords for the barcode prefix:
 
-This module correctly handles products with variants (e.g., different sizes or colors). It generates a unique barcode for **each specific variant**.
-
-
-
-The system works by creating a temporary, unique internal reference for each variant before generating the barcode prefix. This is done by combining the main product's Internal Reference with the variant's specific attribute values.
-
-
+1.  **Variant's Internal Reference:** It first checks if the *product variant itself* has an Internal Reference. If it does, its keywords are used. This gives you precise control over a specific variant's barcode.
+2.  **Variant's Attributes:** If the variant has no Internal Reference, the system checks the variant's attribute values (e.g., "16GB", "Red", "Large"). It will look for a mapping that matches the attribute value's name.
+3.  **Template's Internal Reference:** If no match is found in the variant's reference or attributes, it falls back to using the main product template's Internal Reference.
 
 **Example:**
 
 -   **Product Template:**
+    -   Internal Reference: `T-SHIRT-BRAND`
+-   **Variant 1 (Red):**
+    -   Internal Reference: `TS-RED-SPECIAL`
+    -   *Result:* The system will use `TS-RED-SPECIAL` to generate the barcode prefix.
+-   **Variant 2 (Blue):**
+    -   Internal Reference: (empty)
+    -   Attributes: `Color: Blue`
+    -   *Result:* If a mapping exists for the keyword "Blue", it will be used. If not, the system falls back to the template's `T-SHIRT-BRAND`.
 
-    -   Internal Reference: `LT-DELL-LAT`
-
--   **Variant 1:**
-
-    -   Attributes: `16GB`, `512GB`
-
-    -   Temporary Reference for barcode generation: `LT-DELL-LAT-16GB-512GB`
-
-    -   Resulting Barcode: `70200200001`
-
--   **Variant 2:**
-
-    -   Attributes: `32GB`, `1TB`
-
-    -   Temporary Reference for barcode generation: `LT-DELL-LAT-32GB-1TB`
-
-    -   Resulting Barcode: `70200200002`
-
-
-
-This ensures that every unique item in your inventory has its own distinct barcode, which is essential for accurate stock management.
-
-
+This ensures that every unique item in your inventory can have its own distinct barcode, which is essential for accurate stock management.
 
 ## Installation
 
@@ -156,20 +140,30 @@ You can now generate barcodes automatically or manually.
 4.  Crucially, set the **Internal Reference** to `LT-DELL-LAT`.
 5.  Click **Save**.
 
-The module will automatically run, find your mappings, and generate the barcode.
+The module will automatically run, find your mappings, and generate the barcode for the product and any of its variants.
 
-#### Method 2: Manual & Bulk Actions (for existing products)
+#### Method 2: Manual & Bulk Actions
 
-If you have products that already exist, you can generate barcodes in bulk.
+You can generate barcodes in bulk from either the Product Template or Product Variant list views.
 
-1.  Go to the **Products** list view (the view with all the checkboxes).
-2.  Select one or more products that have an Internal Reference but no barcode.
+**For Product Templates:**
+
+1.  Go to the **Products** list view.
+2.  Select one or more products.
 3.  Click the **Action** button (the gear icon).
 4.  You will see three new options:
-    - **Generate Barcode(s):** Creates barcodes for the selected products.
-    - **Force Regenerate Barcode(s):** Deletes old barcodes and creates new ones.
-    - **Clear Barcode(s):** Removes the barcodes from the selected products.
-5.  Choose the action you want to perform.
+    - **Generate All Barcodes:** Creates barcodes for all variants of the selected products.
+    - **Force Generate All Barcodes:** Deletes old barcodes and creates new ones.
+    - **Clear All Barcodes:** Removes the barcodes from all variants of the selected products.
+
+**For Product Variants:**
+
+1.  Go to **Inventory -> Products -> Product Variants**.
+2.  Select one or more variants.
+3.  Click the **Action** button.
+4.  You will see two new options:
+    - **Generate Barcodes:** Creates barcodes for the selected variants.
+    - **Force Generate Barcodes:** Deletes old barcodes and creates new ones for the selected variants.
 
 ### Step 3: Verify the Result
 
