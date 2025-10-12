@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Barcode Category Mapping -->
+        <record id="view_barcode_category_mapping_tree" model="ir.ui.view">
+            <field name="name">barcode.category.mapping.tree</field>
+            <field name="model">barcode.category.mapping</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_barcode_category_mapping" model="ir.actions.act_window">
+            <field name="name">Barcode Category Mappings</field>
+            <field name="res_.model">barcode.category.mapping</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Barcode Brand Mapping -->
+        <record id="view_barcode_brand_mapping_tree" model="ir.ui.view">
+            <field name="name">barcode.brand.mapping.tree</field>
+            <field name="model">barcode.brand.mapping</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_barcode_brand_mapping" model="ir.actions.act_window">
+            <field name="name">Barcode Brand Mappings</field>
+            <field name="res_model">barcode.brand.mapping</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Barcode Product Mapping -->
+        <record id="view_barcode_product_mapping_tree" model="ir.ui.view">
+            <field name="name">barcode.product.mapping.tree</field>
+            <field name="model">barcode.product.mapping</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_barcode_product_mapping" model="ir.actions.act_window">
+            <field name="name">Barcode Product Mappings</field>
+            <field name="res_model">barcode.product.mapping</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_barcode_config" name="Barcode" parent="stock.menu_stock_config_settings"/>
+        <menuitem id="menu_barcode_category_mapping" name="Category Mappings" parent="menu_barcode_config" action="action_barcode_category_mapping"/>
+        <menuitem id="menu_barcode_brand_mapping" name="Brand Mappings" parent="menu_barcode_config" action="action_barcode_brand_mapping"/>
+        <menuitem id="menu_barcode_product_mapping" name="Product Mappings" parent="menu_barcode_config" action="action_barcode_product_mapping"/>
+    </data>
+</odoo>
