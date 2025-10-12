@@ -56,41 +56,76 @@ Follow the instructions for your specific Odoo setup.
 5.  **Update Apps List:** Go to the `Apps` menu. In the top menu, click `Update Apps List` and confirm the update in the dialog box.
 6.  **Install:** Search for `Product Barcode Generator` (you may need to remove the default `Apps` filter in the search bar) and click `Install`.
 
-## Configuration
+## Getting Started: A Step-by-Step Guide
 
-All barcode generation rules are managed within Odoo.
+The entire system is based on matching keywords in a product's **Internal Reference** to codes that you define.
 
-1.  Navigate to **Inventory -> Configuration -> Barcode**.
-2.  Here you will find three new menu items:
-    - **Category Mappings:** Define keywords (found in the Internal Reference) and their corresponding 2-digit category codes.
-    - **Brand Mappings:** Define brand keywords and their 1-digit codes.
-    - **Product Mappings:** Define product line keywords and their 3-digit codes.
+### Step 1: Configure the Barcode Mappings
 
-**Example Configuration:**
+This is the most important step. You need to teach the module how to build the barcode prefix.
 
-- **Category Mapping:**
-  - Keyword: `LT`, Code: `70`
-- **Brand Mapping:**
-  - Keyword: `DELL`, Code: `2`
-- **Product Mapping:**
-  - Keyword: `LAT`, Code: `002`
+1.  Navigate to the **Inventory** app.
+2.  In the top menu, go to **Configuration -> Barcode**.
+3.  You will see three new menu items:
+    - **Category Mappings**
+    - **Brand Mappings**
+    - **Product Mappings**
 
-Once configured, any new product with an Internal Reference containing these keywords will have a barcode generated automatically.
+Let's use the example from this README: a Dell Latitude laptop with the Internal Reference `LT-DELL-LAT`.
 
-## Usage
+4.  **Create a Category Mapping:**
+    - Click on **Category Mappings**.
+    - Click "New".
+    - In the **Keyword** field, type `LT`.
+    - In the **Code** field, type `70`.
+    - Save.
 
-### Automatic Generation
+5.  **Create a Brand Mapping:**
+    - Go back to **Configuration -> Barcode** and click on **Brand Mappings**.
+    - Click "New".
+    - In the **Keyword** field, type `DELL`.
+    - In the **Code** field, type `2`.
+    - Save.
 
-When you create a new product and set its **Internal Reference**, the barcode will be generated automatically upon saving.
+6.  **Create a Product Mapping:**
+    - Go back to **Configuration -> Barcode** and click on **Product Mappings**.
+    - Click "New".
+    - In the **Keyword** field, type `LAT`.
+    - In the **Code** field, type `002`.
+    - Save.
 
-### Manual & Bulk Actions
+The configuration is now complete for this type of product.
 
-You can manually trigger barcode generation from the product list view.
+### Step 2: Generate Barcodes
 
-1.  Go to the **Products** list view.
-2.  Select one or more products.
-3.  Click the **Action** menu.
-4.  Choose one of the following actions:
-    - **Generate Barcode(s):** Creates barcodes for selected products that don't already have one.
-    - **Force Regenerate Barcode(s):** Overwrites existing barcodes with new ones.
+You can now generate barcodes automatically or manually.
+
+#### Method 1: Automatic Generation (for new products)
+
+1.  Go to **Inventory -> Products -> Products**.
+2.  Click the **New** button to create a new product.
+3.  Give it a name, like "Dell Latitude Laptop".
+4.  Crucially, set the **Internal Reference** to `LT-DELL-LAT`.
+5.  Click **Save**.
+
+The module will automatically run, find your mappings, and generate the barcode.
+
+#### Method 2: Manual Generation (for existing products)
+
+If you have products that already exist, you can generate barcodes in bulk.
+
+1.  Go to the **Products** list view (the view with all the checkboxes).
+2.  Select one or more products that have an Internal Reference but no barcode.
+3.  Click the **Action** button (the gear icon).
+4.  You will see three new options:
+    - **Generate Barcode(s):** Creates barcodes for the selected products.
+    - **Force Regenerate Barcode(s):** Deletes old barcodes and creates new ones.
     - **Clear Barcode(s):** Removes the barcodes from the selected products.
+5.  Choose the action you want to perform.
+
+### Step 3: Verify the Result
+
+Open the product form for the "Dell Latitude Laptop". In the **General Information** tab, you will see the **Barcode** field is now filled with a value like `70200200001`.
+
+-   `702002` is the prefix we configured (`70` + `2` + `002`).
+-   `00001` is the unique 5-digit sequence number. The next product you create will get `00002`, and so on.
