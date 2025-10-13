@@ -28,10 +28,14 @@ class ProductProduct(models.Model):
         
         return default_code
 
+    def _get_padded_code_from_mapping(self, model_name, default_code, record, padding):
+        code = self._get_code_from_mapping(model_name, default_code, record)
+        return code.zfill(padding)
+
     def _get_barcode_prefix(self, record):
-        category_code = self._get_code_from_mapping('barcode.category.mapping', "00", record)
-        brand_code = self._get_code_from_mapping('barcode.brand.mapping', "0", record)
-        product_code = self._get_code_from_mapping('barcode.product.mapping', "000", record)
+        category_code = self._get_padded_code_from_mapping('barcode.category.mapping', "0", record, 3)
+        brand_code = self._get_padded_code_from_mapping('barcode.brand.mapping', "0", record, 3)
+        product_code = self._get_padded_code_from_mapping('barcode.product.mapping', "0", record, 4)
         return category_code + brand_code + product_code
 
     def _get_next_barcode_sequence(self):
