@@ -21,6 +21,8 @@ The module generates a barcode by combining codes from three mappings:
 
 The module finds the correct codes by splitting the product's **Internal Reference** by the hyphen (`-`) character and matching the parts to your defined keywords. For example, `LT-DELL-LAT` would match the keywords `LT`, `DELL`, and `LAT`.
 
+**Note:** The codes for Category, Brand, and Product can now be of any length. The system is fully flexible.
+
 For product variants, the module uses the following priority for finding keywords:
 1.  Variant's own Internal Reference.
 2.  Variant's attribute values.
@@ -53,11 +55,6 @@ For product variants, the module uses the following priority for finding keyword
 - Click the **Action** menu to generate or clear barcodes.
 
 ## Advanced Topics
-
-### Mapping Code Requirements
-- **Category Code:** 2 characters
-- **Brand Code:** 1 character
-- **Product Code:** 3 characters
 
 ### Bulk Import
 You can import mappings from CSV files. Use the `.example.csv` files in the `data/` directory as templates.

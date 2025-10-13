@@ -38,20 +38,32 @@ class ProductProduct(models.Model):
         return self.env['ir.sequence'].next_by_code('barcode.sequence') or ''
 
     def _resolve_barcode_conflict(self, barcode_base, record_id):
+        """
+        Resolves barcode conflicts by appending a suffix.
+        If a barcode already exists, it appends '-1', '-2', etc., until a unique
+        barcode is found.
+        """
+        # Check if the initial barcode exists
         existing_product = self.env['product.product'].search([
             ('barcode', '=', barcode_base),
             ('id', '!=', record_id)
         ], limit=1)
+
+        if not existing_product:
+            return barcode_base
+
+        # If it exists, start appending a suffix
         original_barcode = barcode_base
-        suffix = 0
-        while existing_product:
-            suffix += 1
-            barcode_base = original_barcode[:9] + str(suffix).zfill(3)
+        suffix = 1
+        while True:
+            new_barcode = f"{original_barcode}-{suffix}"
             existing_product = self.env['product.product'].search([
-                ('barcode', '=', barcode_base),
+                ('barcode', '=', new_barcode),
                 ('id', '!=', record_id)
             ], limit=1)
-        return barcode_base
+            if not existing_product:
+                return new_barcode
+            suffix += 1
 
     def generate_barcode(self, force=False):
         for record in self:
