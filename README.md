@@ -62,5 +62,5 @@ For product variants, the module uses the following priority for finding keyword
 ### Bulk Import
 You can import mappings from CSV files. Use the `.example.csv` files in the `data/` directory as templates.
 
-1.  Go to the mapping view (e.g., **Category Mappings**).
+1.  Navigate to **Inventory -> Configuration -> Barcode** and select the mapping type (e.g., **Category Mappings**).
 2.  Click **Import Records** and upload your CSV file.
