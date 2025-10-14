@@ -50,6 +50,10 @@ For product variants, the module uses the following priority for finding keyword
 - Set the **Internal Reference** to match your mapping keywords (e.g., `LT-DELL-LAT`).
 - Save the product. The barcode will be generated automatically.
 
+### Automatic Regeneration
+- The barcode is automatically regenerated if the product's Internal Reference is changed.
+- The barcode is automatically regenerated if a variant's attributes are changed.
+
 ### Bulk Actions
 - From the **Products** or **Product Variants** list view, select the items you want to update.
 - Click the **Action** menu to generate or clear barcodes.
