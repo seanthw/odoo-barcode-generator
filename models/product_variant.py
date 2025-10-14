@@ -92,3 +92,12 @@ class ProductProduct(models.Model):
         records.generate_barcode()
         return records
 
+    def write(self, vals):
+        """
+        After updating a variant, trigger barcode generation.
+        This handles cases where attributes are changed.
+        """
+        res = super(ProductProduct, self).write(vals)
+        self.generate_barcode()
+        return res
+
