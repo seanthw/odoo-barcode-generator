@@ -14,9 +14,9 @@ This Odoo module automatically generates unique, structured barcodes for product
 
 The module generates a barcode by combining codes from three mappings:
 
-1.  **Category Code:** 3-digit code (e.g., "060" for a specific category).
-2.  **Brand Code:** 3-digit code (e.g., "010" for a brand).
-3.  **Product Code:** 4-digit code (e.g., "0000" for a product type).
+1.  **Category Code:** 3-digit code (e.g., "070" for a specific category).
+2.  **Brand Code:** 3-digit code (e.g., "002" for a brand).
+3.  **Product Code:** 4-digit code (e.g., "0002" for a product type).
 4.  **Unique Sequence:** A date-prefixed, 5-digit sequential number (e.g., `25101300001`).
 
 The module finds the correct codes by splitting the product's **Internal Reference** by the hyphen (`-`) character and matching the parts to your defined keywords. For example, `LT-DELL-LAT` would match the keywords `LT`, `DELL`, and `LAT`.
