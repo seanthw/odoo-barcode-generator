@@ -1,3 +1,10 @@
 # Ignore the actual data files, but keep the example templates.
 data/*.mappings.csv
-\n# Ignore mapping data files\ndata/barcode.brand.mapping.csv\ndata/barcode.category.mapping.csv\ndata/barcode.product.mapping.csv
+
+# Ignore mapping data files
+data/barcode.brand.mapping.csv
+data/barcode.category.mapping.csv
+data/barcode.product.mapping.csv
+
+# Ignore LibreOffice/Vim lock files
+data/.~lock.*#
