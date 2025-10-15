@@ -64,6 +64,7 @@ jobs:
       - name: Run module tests
         run: |
           docker compose exec -T odoo odoo \
+            --http-port=0 \
             --db_host=db \
             --db_user=odoo \
             --db_password=odoo \
