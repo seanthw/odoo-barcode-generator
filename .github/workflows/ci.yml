@@ -52,18 +52,18 @@ jobs:
           EOF
 
       - name: Start Odoo and PostgreSQL
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Wait for services to be ready
         run: |
           echo "Waiting for Odoo to initialize..."
           # Give Odoo time to start, especially on the first run when the database is created.
           sleep 60
-          docker-compose ps
+          docker compose ps
 
       - name: Run module tests
         run: |
-          docker-compose exec -T odoo odoo \
+          docker compose exec -T odoo odoo \
             --database=postgres \
             --init=odoo_barcode_generator \
             --test-enable \
@@ -72,7 +72,7 @@ jobs:
 
       - name: Show logs on failure
         if: failure()
-        run: docker-compose logs odoo
+        run: docker compose logs odoo
 
   release:
     needs: test
