@@ -78,7 +78,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     # Only run on pushes to the main branches, not on pull requests
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write # to push tags and releases
       issues: write # to comment on issues
