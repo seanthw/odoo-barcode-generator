@@ -8,7 +8,7 @@
     based on a structured formula that uses product category, brand, and internal references.
 """,
 'author': 'Sean Thawe',
-'depends': ['product', 'stock'],
+'depends': ['product', 'stock', 'sale'],
     'data': [
         'security/ir.model.access.csv',
         'data/barcode_sequence.xml',
