@@ -70,7 +70,7 @@ jobs:
             --db_password=odoo \
             --database=postgres \
             --init=odoo_barcode_generator \
-            --test-enable \
+            --test-tags=odoo_barcode_generator \
             --stop-after-init \
             --log-level=test
 
