@@ -6,7 +6,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "scripts/update_manifest_version.py ${nextRelease.version}"
+        "prepareCmd": "python3 scripts/update_manifest_version.py ${nextRelease.version}"
       }
     ],
     [
