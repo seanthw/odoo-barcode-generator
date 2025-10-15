@@ -2,9 +2,9 @@ name: Odoo CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -64,6 +64,9 @@ jobs:
       - name: Run module tests
         run: |
           docker compose exec -T odoo odoo \
+            --db_host=db \
+            --db_user=odoo \
+            --db_password=odoo \
             --database=postgres \
             --init=odoo_barcode_generator \
             --test-enable \
