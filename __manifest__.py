@@ -1,6 +1,6 @@
 {
 'name': 'Product Barcode Generator',
-'version': '1.0',
+'1.0.0',
 'category': 'Inventory',
 'summary': 'Generate barcodes for products based on internal references',
 'description': """
