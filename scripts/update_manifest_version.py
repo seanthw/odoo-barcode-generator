@@ -1,6 +1,5 @@
 import sys
 import os
-import re
 
 def update_manifest_version(version):
     manifest_path = '__manifest__.py'
@@ -8,32 +7,29 @@ def update_manifest_version(version):
         print(f"Error: {manifest_path} not found.")
         sys.exit(1)
 
-    with open(manifest_path, 'r') as f:
-        content = f.read()
+    new_lines = []
+    version_updated = False
+    with open(manifest_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            if "'version'" in line:
+                # This assumes the version is on its own line.
+                # The indentation and comma are hardcoded to match the existing style.
+                new_lines.append(f"    'version': '{version}',\n")
+                version_updated = True
+            else:
+                new_lines.append(line)
 
-    # Use a regular expression to find and replace the version string.
-    # This is safer than simple string replacement.
-    new_content, count = re.subn(
-        r"('version'\s*:\s*)" + "'[^']+'",
-        f"\1'{version}'",
-        content,
-        count=1
-    )
+    if not version_updated:
+        # If 'version' key was not found, we'll insert it after the 'name' key.
+        final_lines = []
+        for line in new_lines:
+            final_lines.append(line)
+            if "'name'" in line:
+                final_lines.append(f"    'version': '{version}',\n")
+        new_lines = final_lines
 
-    if count == 0:
-        # If 'version' key is not found, try to add it after 'name'.
-        new_content, count = re.subn(
-            r"('name'\s*:\s*'[^']+',)",
-            f"\1\n    'version': '{version}',",
-            content,
-            count=1
-        )
-        if count == 0:
-            print("Error: 'name' key not found in __manifest__.py, could not add 'version'.")
-            sys.exit(1)
-
-    with open(manifest_path, 'w') as f:
-        f.write(new_content)
+    with open(manifest_path, 'w', encoding='utf-8') as f:
+        f.writelines(new_lines)
 
     print(f"Successfully updated __manifest__.py to version {version}")
 
