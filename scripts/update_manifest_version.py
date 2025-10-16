@@ -21,8 +21,16 @@ def update_manifest_version(version):
     )
 
     if count == 0:
-        print("Error: 'version' key not found in __manifest__.py.")
-        sys.exit(1)
+        # If 'version' key is not found, try to add it after 'name'.
+        new_content, count = re.subn(
+            r"('name'\s*:\s*'[^']+',)",
+            f"\1\n    'version': '{version}',",
+            content,
+            count=1
+        )
+        if count == 0:
+            print("Error: 'name' key not found in __manifest__.py, could not add 'version'.")
+            sys.exit(1)
 
     with open(manifest_path, 'w') as f:
         f.write(new_content)
