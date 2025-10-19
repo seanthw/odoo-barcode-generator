@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/seanthw/odoo-barcode-generator/compare/v1.1.3...v1.1.4) (2025-10-19)
+
+
+### Bug Fixes
+
+* **versioning:** make version update script more robust ([83e5c87](https://github.com/seanthw/odoo-barcode-generator/commit/83e5c8783520a21a6c499d058933d4a66e5fd173))
+
 ## [1.1.3](https://github.com/seanthw/odoo-barcode-generator/compare/v1.1.2...v1.1.3) (2025-10-16)
 
 
