@@ -2,7 +2,8 @@ import sys
 import os
 
 def update_manifest_version(version):
-    manifest_path = '__manifest__.py'
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    manifest_path = os.path.join(script_dir, '..', '__manifest__.py')
     if not os.path.exists(manifest_path):
         print(f"Error: {manifest_path} not found.")
         sys.exit(1)
